@@ -51,6 +51,7 @@ go run main.go
 use the following example:
 
 ```json
+// body request
 {
   "acadYear": "2566",
   "semester": 2,
@@ -63,6 +64,7 @@ use the following example:
 #### Retrieve Course Data with Filtering
 
 ```json
+// body request
 {
   "acadYear": "2566",
   "semester": 2,
