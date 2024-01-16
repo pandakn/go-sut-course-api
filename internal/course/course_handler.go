@@ -24,12 +24,18 @@ func NewCourseHandler(courseService ICourseService) ICourseHandler {
 }
 
 func buildUrl(baseURL string, req *Request) (string, error) {
+	maxRow := 50
+
+	if req.MaxRow != 0 {
+		maxRow = req.MaxRow
+	}
+
 	query := url.Values{
 		"coursestatus": []string{"O00"},
 		"facultyid":    []string{"all"},
-		"maxrow":       []string{req.MaxRow},
+		"maxrow":       []string{strconv.Itoa(maxRow)},
 		"acadyear":     []string{req.AcadYear},
-		"semester":     []string{req.Semester},
+		"semester":     []string{strconv.Itoa(req.Semester)},
 		"coursecode":   []string{req.CourseCode},
 		"coursename":   []string{req.CourseName},
 	}
@@ -86,7 +92,7 @@ func (h *courseHandler) GetCourseData(c *fiber.Ctx) error {
 		})
 	}
 
-	year := fmt.Sprintf("%s/%s", req.Semester, req.AcadYear)
+	year := fmt.Sprintf("%d/%s", req.Semester, req.AcadYear)
 
 	resp := Response{
 		Year:    year,

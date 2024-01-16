@@ -4,10 +4,10 @@ import "github.com/pandakn/go-sut-course-api/internal/course/scraper"
 
 type Request struct {
 	AcadYear   string `json:"acadYear" form:"acadYear"`
-	Semester   string `json:"semester" form:"semester"`
+	Semester   int    `json:"semester" form:"semester"`
 	CourseCode string `json:"courseCode" form:"courseCode"`
 	CourseName string `json:"courseName" form:"courseName"`
-	MaxRow     string `json:"maxRow" form:"maxRow"`
+	MaxRow     int    `json:"maxRow" form:"maxRow"`
 	IsFilter   bool   `json:"isFilter" form:"isFilter"`
 	Day        string `json:"day,omitempty" form:"day,omitempty"`
 	TimeFrom   string `json:"timeFrom,omitempty" form:"timeFrom,omitempty"`
