@@ -9,6 +9,8 @@ require (
 	github.com/google/uuid v1.5.0
 )
 
+require github.com/patrickmn/go-cache v2.1.0+incompatible
+
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
