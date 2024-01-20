@@ -1,6 +1,6 @@
 # SUT COURSE API (Go version) 📚
 
-This project scrapes course data from Reg SUT.
+This project scrapes course data from Suranaree Uni of Tech's Reg. [Typescript ver.](https://github.com/pandakn/sut-course-api)
 
 ## Getting started 🚀
 
@@ -20,29 +20,29 @@ go run main.go
 
 ## API Reference
 
-#### Get Course
+#### Get Courses
 
 ```http
   POST /api/v1/courses
 ```
 
-| Key                   | Type                                    | Description                                                                                                                   |
-| :-------------------- | :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `acadYear`            | `string`, `required`                    | The academic year for which you want to retrieve courses (e.g. 2565)                                                          |
-| `semester`            | `int`, `required`                       | The semester for which you want to retrieve courses (e.g. 3)                                                                  |
-| `courseCode`          | `string`                                | The course code pattern to filter courses (e.g. ist30 1105)                                                                   |
-| `courseName`          | `string`                                | The course name to filter courses (e.g. english\*)                                                                            |
-| `maxRow`              | `int`, `Default = 50`                   | The maximum number of rows to return in the response (e.g. 25)                                                                |
-| `isFilter (optional)` | `bool`, `Default = false`               | A <b>Use "true" = filter by day and times.</b> <b>Use "false" = no filter</b>                                                 |
-| `day (optional)`      | `string`, `required if isFilter = true` | The weekdays for which you want to filter courses. For example, "monday". Use the format "sunday", "monday", ..., "saturday". |
-| `timeFrom (optional)` | `string`, `required if isFilter = true` | The starting time for filtering courses. The value should be in the format "HH:MM", e.g., "08:00".                            |
-| `timeTo (optional)`   | `string`, `required if isFilter = true` | The ending time for filtering courses. The value should be in the format "HH:MM", e.g., "12:00".                              |
+| Key                   | Type     | Description                                                                                                                                           | Example           |
+| :-------------------- | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------- |
+| `acadYear`            | `string` | Academic year (e.g. 2565)                                                                                                                             | `"2565"`          |
+| `semester`            | `int`    | Semester (e.g. 3)                                                                                                                                     | `3`               |
+| `courseCode`          | `string` | Course code pattern (e.g. "ist30 1105")                                                                                                               | `"ist30 1105"`    |
+| `courseName`          | `string` | Course name pattern (e.g. "english\*")                                                                                                                | `"english*"`      |
+| `maxRow`              | `int`    | Max rows in response (default is 50)                                                                                                                  | `25`              |
+| `isFilter (optional)` | `bool`   | Filter by day and times (`true`) or no filter (`false`)                                                                                               | `true` or `false` |
+| `day (optional)`      | `string` | Weekdays for filtering courses (e.g. "monday") (e.g. "monday"). Use the format "sunday", "monday", ..., "saturday". Required if `isFilter` is `true`. | `"monday"`        |
+| `timeFrom (optional)` | `string` | Starting time for filtering courses (e.g. "08:00")                                                                                                    | `"08:00"`         |
+| `timeTo (optional)`   | `string` | Ending time for filtering courses (e.g. "12:00")                                                                                                      | `"12:00"`         |
 
 > **Note** : Time range : 08:00 - 22:00
 
-> **Note** : Either one of coursecode or coursename can be entered.
+> **Note** : Either one of courseCode or courseName can be entered.
 
-> **Warning** : If coursecode and coursename are not specified, scraping all the data will take a very long time.
+> **Warning** : If courseCode and courseName are not specified, scraping all the data will take a very long time.
 
 ### Examples
 
@@ -203,8 +203,6 @@ use the following example:
 
 ## Tech Stack
 
-**Server:** Go, Gofiber
-
-[**Colly**](https://github.com/gocolly/colly) : Scrapper
+[Go Fiber](https://docs.gofiber.io/), [Colly](https://github.com/gocolly/colly), [Cache](https://github.com/patrickmn/go-cache)
 
 <!-- [**Redis**](https://redis.io/) : cache data -->
