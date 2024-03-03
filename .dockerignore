@@ -1,0 +1,11 @@
+Dockerfile
+
+LICENSE
+README.md
+
+.git
+.gitignore
+
+.env.example
+.env.local
+.env.dev

@@ -24,3 +24,8 @@ tmp/
 
 # .env file
 .env
+.env.local
+.env.dev
+.env.prod
+
+Makefile
