@@ -37,13 +37,18 @@ func buildUrl(baseURL string, req *Request) (string, error) {
 
 	query := url.Values{
 		"coursestatus": []string{"O00"},
-		"facultyid":    []string{"all"},
 		"maxrow":       []string{strconv.Itoa(maxRow)},
 		"acadyear":     []string{req.AcadYear},
 		"semester":     []string{strconv.Itoa(req.Semester)},
 		"coursecode":   []string{req.CourseCode},
 		"coursename":   []string{req.CourseName},
 	}
+
+	facultyId, err := utils.ConvertFacultyToFacultyId(req.Faculty)
+	if err != nil {
+		return "", err
+	}
+	query.Set("facultyid", *facultyId)
 
 	// cmd `2` is no filter
 	cmd := "2"
@@ -82,7 +87,7 @@ func (h *courseHandler) GetCourseData(c *fiber.Ctx) error {
 		return err
 	}
 
-	cachedData, err := h.cache.Get(req.CourseCode, req.CourseName, strconv.Itoa(req.Semester),
+	cachedData, err := h.cache.Get(req.Faculty, req.CourseCode, req.CourseName, strconv.Itoa(req.Semester),
 		req.AcadYear, req.Day, req.TimeFrom, req.TimeTo, req.IsFilter)
 
 	if err == nil && err != cache.ErrCacheMiss {
@@ -104,17 +109,20 @@ func (h *courseHandler) GetCourseData(c *fiber.Ctx) error {
 		})
 	}
 
-	coursesData, err := h.courseService.GetCourseData(url)
+	year := fmt.Sprintf("%d/%s", req.Semester, req.AcadYear)
+	// shouldInsertData := req.CourseCode == "" && req.CourseName == ""
+	shouldInsertData := false
+	coursesData, err := h.courseService.GetCourseData(year, url, shouldInsertData)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": err,
 		})
 	}
 
-	// Prepare the response structure
-	year := fmt.Sprintf("%d/%s", req.Semester, req.AcadYear)
+	// Prepare the response tructure
 	courseResp := Response{
 		Year:    year,
+		Faculty: req.Faculty,
 		Courses: coursesData,
 	}
 
@@ -126,7 +134,7 @@ func (h *courseHandler) GetCourseData(c *fiber.Ctx) error {
 	}
 
 	if coursesData != nil {
-		err = h.cache.Set(req.CourseCode, req.CourseName, strconv.Itoa(req.Semester),
+		err = h.cache.Set(req.Faculty, req.CourseCode, req.CourseName, strconv.Itoa(req.Semester),
 			req.AcadYear, req.Day, req.TimeFrom, req.TimeTo, req.IsFilter, serializedResp, time.Hour*3)
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

@@ -7,7 +7,7 @@ import (
 )
 
 type ICourseService interface {
-	GetCourseData(url string) ([]*scraper.IGroupedCourse, error)
+	GetCourseData(acadYear, url string, shouldInsert bool) ([]*scraper.IGroupedCourse, error)
 }
 
 type courseService struct{}
@@ -16,7 +16,7 @@ func NewCourseService() ICourseService {
 	return &courseService{}
 }
 
-func (s *courseService) GetCourseData(url string) ([]*scraper.IGroupedCourse, error) {
+func (s *courseService) GetCourseData(acadYear, url string, shouldInsert bool) ([]*scraper.IGroupedCourse, error) {
 	coursesData, err := scraper.ScrapeCourseData(url)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get course data: %w", err)

@@ -28,8 +28,8 @@ func NewSUTCache() *ISUTCache {
 	}
 }
 
-func (c *ISUTCache) Get(coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto string, isFilter bool) ([]byte, error) {
-	key := generateCacheKey(coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto, isFilter)
+func (c *ISUTCache) Get(faculty, coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto string, isFilter bool) ([]byte, error) {
+	key := generateCacheKey(faculty,coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto, isFilter)
 
 	val, found := c.cache.Get(key)
 	if !found {
@@ -39,15 +39,15 @@ func (c *ISUTCache) Get(coursecode, coursename, semester, acadyear, weekdays, ti
 	return val.([]byte), nil
 }
 
-func (c *ISUTCache) Set(coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto string, isFilter bool, value []byte, expiration time.Duration) error {
-	key := generateCacheKey(coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto, isFilter)
+func (c *ISUTCache) Set(faculty, coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto string, isFilter bool, value []byte, expiration time.Duration) error {
+	key := generateCacheKey(faculty, coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto, isFilter)
 
 	c.cache.Set(key, value, expiration)
 	return nil
 }
 
-func generateCacheKey(coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto string, isFilter bool) string {
+func generateCacheKey(faculty, coursecode, coursename, semester, acadyear, weekdays, timefrom, timeto string, isFilter bool) string {
 	isFilterStr := strconv.FormatBool(isFilter)
 
-	return fmt.Sprintf("%s:%s:%s:%s:%s:%s:%s:%s", coursecode, coursename, semester, acadyear, isFilterStr, weekdays, timefrom, timeto)
+  return fmt.Sprintf("%s:%s:%s:%s:%s:%s:%s:%s:%s", faculty,coursecode, coursename, semester, acadyear, isFilterStr, weekdays, timefrom, timeto)
 }
