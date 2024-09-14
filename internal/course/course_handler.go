@@ -44,11 +44,21 @@ func buildUrl(baseURL string, req *Request) (string, error) {
 		"coursename":   []string{req.CourseName},
 	}
 
-	facultyId, err := utils.ConvertFacultyToFacultyId(req.Faculty)
-	if err != nil {
-		return "", err
+	// Set default value for facultyId
+	facultyId := "all"
+
+	// Convert faculty if provided
+	if req.Faculty != "" {
+		facultyIdConverted, err := utils.ConvertFacultyToFacultyId(req.Faculty)
+		if err != nil {
+			return "", err
+		}
+
+		facultyId = *facultyIdConverted
 	}
-	query.Set("facultyid", *facultyId)
+
+	// Set the facultyId in query
+	query.Set("facultyid", facultyId)
 
 	// cmd `2` is no filter
 	cmd := "2"
@@ -119,10 +129,15 @@ func (h *courseHandler) GetCourseData(c *fiber.Ctx) error {
 		})
 	}
 
-	// Prepare the response tructure
+	// Prepare the response structure
+	faculty := "ALL"
+	if req.Faculty != "" {
+		faculty = req.Faculty
+	}
+
 	courseResp := Response{
 		Year:    year,
-		Faculty: req.Faculty,
+		Faculty: faculty,
 		Courses: coursesData,
 	}
 
