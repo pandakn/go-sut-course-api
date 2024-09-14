@@ -26,17 +26,18 @@ go run main.go
   POST /api/v1/courses
 ```
 
-| Key                   | Type     | Description                                                                                                                                           | Example           |
-| :-------------------- | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------- |
-| `acadYear`            | `string` | Academic year (e.g. 2565)                                                                                                                             | `"2565"`          |
-| `semester`            | `int`    | Semester (e.g. 3)                                                                                                                                     | `3`               |
-| `courseCode`          | `string` | Course code pattern (e.g. "ist30 1105")                                                                                                               | `"ist30 1105"`    |
-| `courseName`          | `string` | Course name pattern (e.g. "english\*")                                                                                                                | `"english*"`      |
-| `maxRow`              | `int`    | Max rows in response (default is 50)                                                                                                                  | `25`              |
-| `isFilter (optional)` | `bool`   | Filter by day and times (`true`) or no filter (`false`)                                                                                               | `true` or `false` |
-| `day (optional)`      | `string` | Weekdays for filtering courses (e.g. "monday") (e.g. "monday"). Use the format "sunday", "monday", ..., "saturday". Required if `isFilter` is `true`. | `"monday"`        |
-| `timeFrom (optional)` | `string` | Starting time for filtering courses (e.g. "08:00")                                                                                                    | `"08:00"`         |
-| `timeTo (optional)`   | `string` | Ending time for filtering courses (e.g. "12:00")                                                                                                      | `"12:00"`         |
+| Key                   | Type     | Description                                                                                                                                                                                                                                                     | Example           |
+| :-------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------- |
+| `acadYear`            | `string` | Academic year (e.g. 2565)                                                                                                                                                                                                                                       | `"2565"`          |
+| `semester`            | `int`    | Semester (e.g. 3)                                                                                                                                                                                                                                               | `3`               |
+| `courseCode`          | `string` | Course code pattern (e.g. "ist30 1105")                                                                                                                                                                                                                         | `"ist30 1105"`    |
+| `courseName`          | `string` | Course name pattern (e.g. "english\*")                                                                                                                                                                                                                          | `"english*"`      |
+| `maxRow`              | `int`    | Max rows in response (default is 50)                                                                                                                                                                                                                            | `25`              |
+| `isFilter (optional)` | `bool`   | Filter by day and times (`true`) or no filter (`false`)                                                                                                                                                                                                         | `true` or `false` |
+| `day (optional)`      | `string` | Weekdays for filtering courses (e.g. "monday") (e.g. "monday"). Use the format "sunday", "monday", ..., "saturday". Required if `isFilter` is `true`.                                                                                                           | `"monday"`        |
+| `timeFrom (optional)` | `string` | Starting time for filtering courses (e.g. "08:00")                                                                                                                                                                                                              | `"08:00"`         |
+| `timeTo (optional)`   | `string` | Ending time for filtering courses (e.g. "12:00")                                                                                                                                                                                                                | `"12:00"`         |
+| `faculty (optional)`  | `string` | Faculty to filter the courses. Use the following values: `"ALL"`, `"SCIENCE"`, `"SOCIAL_TECHNOLOGY"`, `"AGRICULTURAL_TECHNOLOGY"`, `"MEDICINE"`, `"ENGINEERING"`, `"NURSING"`, `"DENTISTRY"`, `"PUBLIC_HEALTH"`, `"DIGITAL_ARTS_AND_SCIENCE"`. Default is `ALL` | `"SCIENCE"`       |
 
 > **Note** : Time range : 08:00 - 22:00
 
@@ -83,6 +84,7 @@ use the following example:
 ```json
 {
   "year": "2/2566",
+  "faculty": "ALL",
   "courses": [
     {
       "courseCode": "523332",
